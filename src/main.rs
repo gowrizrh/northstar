@@ -38,6 +38,32 @@ impl<'a> PartialOrd for Location<'a> {
     }
 }
 
+struct ArrayMap {}
+
+impl ArrayMap {
+    // returns an iterable collection of neighbours
+    fn neighbours(&self) {
+        todo!();
+    }
+}
+
+struct PathFinder<'a> {
+    start: &'a Location<'a>,
+    goal: &'a Location<'a>,
+    map: ArrayMap
+}
+
+impl PathFinder<'_> {
+
+    fn heuristic(&self) {
+        todo!();
+    }
+
+    fn find(&self) {
+        todo!();
+    }
+}
+
 #[test]
 fn location_equality() {
     let origin = Location {
