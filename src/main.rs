@@ -1,10 +1,6 @@
 use std::cell::Cell;
 use std::cmp::Ordering;
 
-fn main() {
-    println!("Hello, world!");
-}
-
 #[derive(Debug)]
 struct Location<'a> {
     row: i32,
@@ -14,7 +10,45 @@ struct Location<'a> {
     parent: Option<&'a Location<'a>>
 }
 
+struct ArrayMap {
+    cells: [[u8; 10]; 10]
+}
+
+struct PathFinder<'a> {
+    start: &'a Location<'a>,
+    goal: &'a Location<'a>,
+    map: ArrayMap
+}
+
+fn main() {
+    // Create a map, a start and a goal
+    let map: ArrayMap = ArrayMap::demo_map();
+    let start = Location::new(0, 0);
+    let goal = Location::new(4, 5);
+
+    // Feed it into the pathfinder
+    let path_finder = PathFinder { start: &start, goal: &goal, map };
+
+    // Visualize the map, also used for debugging purposes
+    path_finder.print_map();
+
+    // A*!
+    path_finder.find();
+}
+
 impl Eq for Location<'_> {}
+
+impl<'a> Location<'a> {
+    fn new(row: i32, col : i32) -> Location<'a> {
+        Location {
+            row,
+            col,
+            f: Cell::new(i32::MAX),
+            g: Cell::new(i32::MAX),
+            parent: None
+        }
+    }
+}
 
 impl<'a> PartialEq for Location<'a> {
     fn eq(&self, other: &Self) -> bool {
@@ -38,20 +72,50 @@ impl<'a> PartialOrd for Location<'a> {
     }
 }
 
-struct ArrayMap {}
-
 impl ArrayMap {
     // returns an iterable collection of neighbours
     fn neighbours(&self) {
         todo!();
     }
+
+    fn demo_map() -> ArrayMap {
+        // Statically fixed array of u8s are fine for now as primitive array
+        // types cannot be dynamic
+        let mut building_cells: [[u8; 10]; 10] = [[0; 10]; 10];
+
+        // This hardcoded map will do for now, 0 are traversable cells
+        // and 1 is a wall and cannot be passed through
+        let map =
+"0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0
+0 0 0 1 1 1 1 1 0 0
+0 0 0 1 0 0 0 1 0 0
+0 0 0 1 0 0 0 1 0 0
+0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0
+0 0 0 0 0 0 0 0 0 0";
+
+        let mut row: usize = 0;
+        let mut col: usize = 0;
+
+        for line in map.lines() {
+            for character in line.split_whitespace() {
+                // print!("({0}, {1})", row, col);
+
+                building_cells[row][col] = character.parse::<u8>().unwrap();
+                col = col +  1;
+            }
+            col = 0;
+            row = row + 1;
+            // println!();
+        }
+
+        ArrayMap { cells: building_cells }
+    }
 }
 
-struct PathFinder<'a> {
-    start: &'a Location<'a>,
-    goal: &'a Location<'a>,
-    map: ArrayMap
-}
 
 impl PathFinder<'_> {
 
@@ -60,7 +124,16 @@ impl PathFinder<'_> {
     }
 
     fn find(&self) {
-        todo!();
+        println!("hey hey!");
+    }
+
+    fn print_map(&self) {
+        for row in &self.map.cells {
+            for col in row {
+                print!("{0} ", col);
+            }
+            println!();
+        }
     }
 }
 
