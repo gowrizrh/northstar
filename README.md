@@ -7,7 +7,7 @@ so it is not 100% idiomatic rust! but feel free to explore and open issues
 
 ### Todo
 - [x] start the project
-- [ ] basic array map implementation
+- [x] basic array map implementation
 - [ ] implement a*
 - [ ] implement hierarchical cooperative pathfinding
 - [ ] add a 2d lib visualization!
