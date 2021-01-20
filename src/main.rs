@@ -1,5 +1,7 @@
 use std::cell::Cell;
 use std::cmp::Ordering;
+use std::hash::{Hash, Hasher};
+use std::collections::HashSet;
 
 #[derive(Debug)]
 struct Location<'a> {
@@ -18,6 +20,13 @@ struct PathFinder<'a> {
     start: &'a Location<'a>,
     goal: &'a Location<'a>,
     map: ArrayMap
+}
+
+impl Hash for Location<'_> {
+    fn hash<H: Hasher>(&self, state: &mut H) {
+        self.row.hash(state);
+        self.col.hash(state);
+    }
 }
 
 fn main() {
@@ -211,4 +220,32 @@ fn location_ordering() {
 
     assert!(origin <= random_point);
     assert!(origin >= random_point);
+}
+
+#[test]
+fn hash_value_test() {
+    let mut closed: HashSet<&Location> = HashSet::new();
+
+    let a = Location::new(0, 0);
+    let b = Location::new(1, 0);
+    let c = Location::new(0, 0);
+
+    closed.insert(&a);
+    closed.insert(&b);
+    closed.insert(&c);
+
+    assert_eq!(2, closed.len());
+
+    // Clear hashset
+    closed.clear();
+    assert_eq!(0, closed.len());
+
+    // Case to add multiple references of the same struct
+    closed.insert(&a);
+    closed.insert(&a);
+    closed.insert(&a);
+
+    // Value should be 1, not 3
+    assert_eq!(1, closed.len());
+    
 }
