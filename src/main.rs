@@ -5,8 +5,8 @@ use std::collections::HashSet;
 
 #[derive(Debug)]
 struct Location<'a> {
-    row: usize,
-    col: usize,
+    row: u16,
+    col: u16,
     value: u8,
     f: Cell<i32>,
     g: Cell<i32>,
@@ -42,7 +42,14 @@ impl<'a> RefMap<'a> {
             let mut rows: Vec<Location> = Vec::with_capacity(line.len());
 
             for y in 0..line.len() {
-                rows.push(Location::new(x, y, line[y].parse::<u8>().unwrap()));
+
+                rows.push(
+                    Location::new(
+                        x as u16, // TODO: Restrict lines.len() and line.len() to u16
+                        y as u16,
+                        line[y].parse::<u8>().unwrap()
+                    )
+                );
             }
             
             map.push(rows);
@@ -119,7 +126,7 @@ fn main() {
 impl Eq for Location<'_> {}
 
 impl<'a> Location<'a> {
-    fn new(row: usize, col : usize, value: u8) -> Location<'a> {
+    fn new(row: u16, col : u16, value: u8) -> Location<'a> {
         Location {
             row,
             col,
@@ -155,8 +162,11 @@ impl<'a> PartialOrd for Location<'a> {
 
 impl PathFinder<'_> {
 
-    fn heuristic(&self) {
-        todo!();
+    fn heuristic(&self, location: &Location) -> i32 {
+        let dx = (i32::from(location.row) - i32::from(self.goal.row)).abs();
+        let dy = (i32::from(location.col) - i32::from(self.goal.col)).abs();
+
+        dx + dy
     }
 
     fn find(&self) {
@@ -252,4 +262,14 @@ fn hash_value_test() {
 
     // Value should be 1, not 3
     assert_eq!(1, closed.len());
+}
+
+#[test]
+fn heuristic_test() {
+    let map: RefMap = RefMap::new();
+    let start = Location::new(0, 0, 0);
+    let goal = Location::new(5, 7, 0);
+    let path_finder = PathFinder { start: &start, goal: &goal, map };
+ 
+    assert_eq!(12, path_finder.heuristic(&start));
 }
