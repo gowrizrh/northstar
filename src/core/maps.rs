@@ -73,6 +73,10 @@ impl<'a> RefMap<'a> {
     /// which is,
     /// (4,4) -> (4,2) (4,3) (2,4) (3,4)
     fn neighbours(&self, row: usize, col: usize ) -> Vec<&Location> {
+
+        // We definitely know that it is either exactly 4, or lesser. Therefore,
+        // we can leverage creating the vector with capacity instead of
+        // dynamically growing.
         let mut neighbours: Vec<&Location> = Vec::with_capacity(4) ;
 
         if col > 0 {
