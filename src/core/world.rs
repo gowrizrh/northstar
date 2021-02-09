@@ -1,6 +1,5 @@
 use std::cell::Cell;
 use std::hash::{Hash, Hasher};
-use std::collections::HashSet;
 use std::cmp::Ordering;
 
 #[derive(Debug)]
@@ -8,9 +7,9 @@ pub struct Location<'a> {
     pub row: u16,
     pub col: u16,
     pub value: u8,
-    f: Cell<i32>,
-    g: Cell<i32>,
-    parent: Option<&'a Location<'a>>
+    pub f: Cell<i32>,
+    pub g: Cell<i32>,
+    pub parent: Option<&'a Location<'a>>
 }
 
 impl Eq for Location<'_> {}

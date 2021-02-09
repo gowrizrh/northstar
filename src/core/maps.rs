@@ -97,4 +97,8 @@ impl<'a> RefMap<'a> {
 
         neighbours
     }
+
+    pub fn get_value_at(&self, location: &Location) -> u8 {
+        self.cells[location.row as usize][location.col as usize].value
+    }
 }

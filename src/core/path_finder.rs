@@ -1,3 +1,4 @@
+use std::collections::{BinaryHeap, HashSet};
 use super::maps::RefMap;
 use super::world::Location;
 
@@ -17,9 +18,26 @@ impl Astar<'_> {
     }
 
     pub fn find(&self) {
-        println!("Start location is: ({0},{1})", self.start.row, self.start.col);
-        println!("Goal location is: ({0},{1})\n", self.goal.row, self.goal.col);
-        self.map.print_map();
+        // TODO: return None
+        if self.map.get_value_at(self.start) == 1 {}
+
+        let mut open: BinaryHeap<&Location> = BinaryHeap::new();
+
+        // binary heap in the std lib does not contain a contains method, therefore
+        // a sister map is introduced to track if the binary heap contains this location
+        // or not
+        let mut open_sister_map: BinaryHeap<&Location> = BinaryHeap::new();
+
+        let mut closed: HashSet<&Location> = HashSet::new();
+        self.start.g.set(0); self.start.f.set(0); open.push(self.start);
+
+        let mut current: &Location = self.start;
+
+        while !open.is_empty() {
+            current = open.pop().unwrap();
+            closed.insert(current);
+        }
+
     }
 
     pub fn new<'a>(start: &'a Location, goal: &'a Location) -> Astar<'a> {
