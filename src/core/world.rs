@@ -1,5 +1,6 @@
 use std::cell::Cell;
 use std::hash::{Hash, Hasher};
+use std::collections::HashSet;
 use std::cmp::Ordering;
 
 #[derive(Debug)]
