@@ -3,6 +3,7 @@ mod map;
 
 use location::{GridCell, Location};
 use std::cell::Cell;
+use std::collections::{BinaryHeap, HashSet};
 use std::fs::File;
 use std::io::prelude::BufRead;
 use std::io::BufReader;
@@ -25,6 +26,17 @@ pub fn init() -> Map {
 pub fn astar(map: &Map, start: (usize, usize), end: (usize, usize)) {
     let start = Location::default(start.0, start.1);
     let end = Location::default(end.0, end.1);
+
+    let mut open: BinaryHeap<Location> = BinaryHeap::new();
+    let mut closed: HashSet<Location> = HashSet::new();
+
+    let mut current = start;
+
+    open.push(current);
+    while !open.is_empty() {
+        current = open.pop().unwrap();
+        println!("{:?}", current);
+    }
 
     map.print();
 }
