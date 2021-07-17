@@ -15,6 +15,26 @@ pub struct Location {
     pub f: Cell<i64>,
 }
 
+impl Location {
+    pub fn new(x: usize, y: usize, val: GridCell, f: Cell<i64>) -> Self {
+        Location {
+            x,
+            y,
+            val,
+            f,
+        }
+    }
+
+    pub fn default(x: usize, y: usize) -> Self {
+        Location {
+            x,
+            y,
+            val: GridCell::Path,
+            f: Cell::new(0),
+        }
+    }
+}
+
 impl Eq for Location {}
 
 impl PartialEq for Location {
