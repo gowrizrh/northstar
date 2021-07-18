@@ -1,4 +1,4 @@
-# A* Search Algorithm in Rust
+# A* and HCA* Search Algorithm in Rust
 
 ![Rust](https://github.com/gowrizrh/northstar/workflows/Rust/badge.svg?branch=main)
 
@@ -8,6 +8,6 @@ so it is not 100% idiomatic rust! but feel free to explore and open issues
 ### Todo
 - [x] start the project
 - [x] basic array map implementation
-- [ ] implement a*
+- [x] implement a*
 - [ ] implement hierarchical cooperative pathfinding
 - [ ] add a 2d lib visualization!
