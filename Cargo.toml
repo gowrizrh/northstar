@@ -1,5 +1,5 @@
 [package]
-name = "mockingjay"
+name = "northstar"
 version = "0.1.0"
 authors = ["Gowri <gowrizrh@gmail.com>"]
 edition = "2018"

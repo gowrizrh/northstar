@@ -1,6 +1,6 @@
 use std::cell::Cell;
 use std::cmp::Ordering;
-use std::fmt::Debug;
+use std::fmt::{Debug, Display};
 use std::hash::{Hash, Hasher};
 
 pub enum GridCell {
@@ -13,16 +13,12 @@ pub struct Location {
     pub y: usize,
     pub val: GridCell,
     pub f: Cell<i64>,
+    pub g: Cell<i64>,
 }
 
 impl Location {
-    pub fn new(x: usize, y: usize, val: GridCell, f: Cell<i64>) -> Self {
-        Location {
-            x,
-            y,
-            val,
-            f,
-        }
+    pub fn new(x: usize, y: usize, val: GridCell, f: Cell<i64>, g: Cell<i64>) -> Self {
+        Location { x, y, val, f, g }
     }
 
     pub fn default(x: usize, y: usize) -> Self {
@@ -31,6 +27,7 @@ impl Location {
             y,
             val: GridCell::Path,
             f: Cell::new(0),
+            g: Cell::new(0),
         }
     }
 }
@@ -70,9 +67,24 @@ impl PartialOrd for Location {
     }
 }
 
+impl Display for Location {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(f, "{0}", self.val)
+    }
+}
+
+impl Display for GridCell {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            GridCell::Path => write!(f, "0"),
+            _ => write!(f, "1"),
+        }
+    }
+}
+
 impl Debug for Location {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        write!(f, "{:?}", self.val)
+        write!(f, "({0}, {1})", self.x, self.y)
     }
 }
 
@@ -97,6 +109,7 @@ mod tests {
             y: 0,
             val: GridCell::Path,
             f: Cell::new(i64::MAX),
+            g: Cell::new(i64::MAX),
         };
 
         let origin_duplicate = Location {
@@ -104,6 +117,7 @@ mod tests {
             y: 0,
             val: GridCell::Path,
             f: Cell::new(i64::MAX),
+            g: Cell::new(i64::MAX),
         };
 
         let random_point = Location {
@@ -111,6 +125,7 @@ mod tests {
             y: 150,
             val: GridCell::Path,
             f: Cell::new(i64::MAX),
+            g: Cell::new(i64::MAX),
         };
 
         // origin is equal to origin duplicate even though they are separate objects
@@ -129,6 +144,7 @@ mod tests {
             y: 0,
             val: GridCell::Path,
             f: Cell::new(i64::MAX),
+            g: Cell::new(i64::MAX),
         };
 
         let b = Location {
@@ -136,6 +152,7 @@ mod tests {
             y: 0,
             val: GridCell::Path,
             f: Cell::new(i64::MAX),
+            g: Cell::new(i64::MAX),
         };
 
         let c = Location {
@@ -143,6 +160,7 @@ mod tests {
             y: 0,
             val: GridCell::Path,
             f: Cell::new(i64::MAX),
+            g: Cell::new(i64::MAX),
         };
 
         closed.insert(&a);
@@ -171,6 +189,7 @@ mod tests {
             y: 0,
             val: GridCell::Path,
             f: Cell::new(0),
+            g: Cell::new(0),
         };
 
         let origin_duplicate = Location {
@@ -178,6 +197,7 @@ mod tests {
             y: 0,
             val: GridCell::Path,
             f: Cell::new(5),
+            g: Cell::new(5),
         };
 
         let random_point = Location {
@@ -185,6 +205,7 @@ mod tests {
             y: 10,
             val: GridCell::Path,
             f: Cell::new(10),
+            g: Cell::new(10),
         };
 
         assert!(origin < origin_duplicate);

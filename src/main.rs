@@ -5,7 +5,7 @@ mod core;
 fn main() -> Result<(), Box<dyn Error>> {
     let map = core::init();
 
-    core::astar(&map, (0, 0), (10,2));
+    core::astar(&map, (1, 5), (9, 9));
 
     Ok(())
 }
