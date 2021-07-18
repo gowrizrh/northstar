@@ -1,4 +1,4 @@
-# An attempt to implement A* Pathfinding and A* Cooperative Pathfinding in Rust
+# A* Search Algorithm in Rust
 
 ![Rust](https://github.com/gowrizrh/northstar/workflows/Rust/badge.svg?branch=main)
 
