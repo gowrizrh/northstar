@@ -9,7 +9,7 @@ pub struct BinaryHeap<T> {
     set: HashSet<T>,
 }
 
-impl<'a, T: 'a> BinaryHeap<T>
+impl<T> BinaryHeap<T>
 where
     T: Ord + Hash + Copy,
 {
@@ -26,9 +26,16 @@ where
     }
 
     pub fn pop(&mut self) -> Option<T> {
-        let item: T = self.open.pop().unwrap();
-        self.set.remove(&item);
-        Some(item)
+        let result: Option<T> = self.open.pop();
+
+        match result {
+            Some(item) => {
+                self.set.remove(&item);
+            },
+            None => ()
+        }
+
+        result
     }
 
     pub fn is_empty(&self) -> bool {
