@@ -46,3 +46,30 @@ where
         self.set.contains(&item)
     }
 }
+
+mod tests {
+    #![allow(unused_imports)]
+    use super::BinaryHeap;
+
+    #[test]
+    fn test_push_pop() {
+        let mut heap: BinaryHeap<i32> = BinaryHeap::new();
+
+        heap.push(2);
+        heap.push(3);
+        heap.push(1);
+
+        assert_eq!(true, heap.contains(3));
+
+        heap.pop();
+
+        // note that 1 was the last item we inserted but the heap would have
+        // removed 3. this is because it's a binary heap.
+        assert_eq!(false, heap.contains(3));
+
+        heap.pop();
+
+        assert_eq!(false, heap.contains(2));
+        assert_eq!(true, heap.contains(1));
+    }
+}

@@ -26,19 +26,6 @@ pub fn init() -> Map {
     map::Map::new(map)
 }
 
-pub fn heuristic(location: &Location, goal: &Location) -> i64 {
-    let lx: i64 = location.x.try_into().unwrap();
-    let ly: i64 = location.y.try_into().unwrap();
-
-    let gx: i64 = goal.x.try_into().unwrap();
-    let gy: i64 = goal.y.try_into().unwrap();
-
-    let dx = lx - gx;
-    let dy = ly - gy;
-
-    dx.abs() + dy.abs()
-}
-
 pub fn astar(map: &Map, start: (usize, usize), end: (usize, usize)) {
     //  note start.0 and start.1 are flipped between x and y
     let start = Location::default(start.1, start.0);
