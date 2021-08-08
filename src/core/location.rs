@@ -8,17 +8,20 @@ pub enum GridCell {
     Wall,
 }
 
+type Parent = (usize, usize);
+
 pub struct Location {
     pub x: usize,
     pub y: usize,
     pub val: GridCell,
     pub f: Cell<i64>,
     pub g: Cell<i64>,
+    pub parent: Cell<Option<Parent>>
 }
 
 impl Location {
     pub fn new(x: usize, y: usize, val: GridCell, f: Cell<i64>, g: Cell<i64>) -> Self {
-        Location { x, y, val, f, g }
+        Location { x, y, val, f, g, parent: Cell::new(None) }
     }
 
     pub fn default(x: usize, y: usize) -> Self {
@@ -28,6 +31,7 @@ impl Location {
             val: GridCell::Path,
             f: Cell::new(0),
             g: Cell::new(0),
+            parent: Cell::new(None)
         }
     }
 }
@@ -110,6 +114,7 @@ mod tests {
             val: GridCell::Path,
             f: Cell::new(i64::MAX),
             g: Cell::new(i64::MAX),
+            parent: Cell::new(None)
         };
 
         let origin_duplicate = Location {
@@ -118,6 +123,7 @@ mod tests {
             val: GridCell::Path,
             f: Cell::new(i64::MAX),
             g: Cell::new(i64::MAX),
+            parent: Cell::new(None)
         };
 
         let random_point = Location {
@@ -126,6 +132,7 @@ mod tests {
             val: GridCell::Path,
             f: Cell::new(i64::MAX),
             g: Cell::new(i64::MAX),
+            parent: Cell::new(None)
         };
 
         // origin is equal to origin duplicate even though they are separate objects
@@ -145,6 +152,7 @@ mod tests {
             val: GridCell::Path,
             f: Cell::new(i64::MAX),
             g: Cell::new(i64::MAX),
+            parent: Cell::new(None)
         };
 
         let b = Location {
@@ -153,6 +161,7 @@ mod tests {
             val: GridCell::Path,
             f: Cell::new(i64::MAX),
             g: Cell::new(i64::MAX),
+            parent: Cell::new(None)
         };
 
         let c = Location {
@@ -161,6 +170,7 @@ mod tests {
             val: GridCell::Path,
             f: Cell::new(i64::MAX),
             g: Cell::new(i64::MAX),
+            parent: Cell::new(None)
         };
 
         closed.insert(&a);
@@ -190,6 +200,7 @@ mod tests {
             val: GridCell::Path,
             f: Cell::new(0),
             g: Cell::new(0),
+            parent: Cell::new(None)
         };
 
         let origin_duplicate = Location {
@@ -198,6 +209,7 @@ mod tests {
             val: GridCell::Path,
             f: Cell::new(5),
             g: Cell::new(5),
+            parent: Cell::new(None)
         };
 
         let random_point = Location {
@@ -206,6 +218,7 @@ mod tests {
             val: GridCell::Path,
             f: Cell::new(10),
             g: Cell::new(10),
+            parent: Cell::new(None)
         };
 
         assert!(origin < origin_duplicate);

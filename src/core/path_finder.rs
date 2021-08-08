@@ -62,6 +62,7 @@ impl PathFinder for Astar<'_> {
                     let f = new_g + self.heuristic(neighbour);
                     neighbour.g.set(new_g);
                     neighbour.f.set(f);
+                    neighbour.parent.set(Some((neighbour.x, neighbour.y)));
 
                     if !open.contains(neighbour) {
                         open.push(neighbour)
